@@ -1,0 +1,22 @@
+title: Regsvr32 Executing DLL
+id: b91813a1-2952-456f-83af-8aaf88e2ef2e
+status: test
+description: Detects regsvr32.exe running a DLL
+references:
+    - https://www.atomicredteam.io/atomic-red-team/atomics/T1218.010#atomic-test-3---regsvr32-local-dll-execution
+author: Ismaeel A 
+date: 2025-09-04
+tags:
+    - attack.t1218.010
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    regsvr32:
+        Image|endswith: '\regsvr32.exe'
+    run_dll:
+        CommandLine|contains: '/s *.dll'
+    condition: regsvr32 and run_dll
+falsepositives:
+    - unknown
+level: medium

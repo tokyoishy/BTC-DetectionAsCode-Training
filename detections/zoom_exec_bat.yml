@@ -1,0 +1,19 @@
+title: Zoom Executing a .bat file
+id: f290454b-279b-4ecf-9288-eb527df89fdb
+status: test
+description: Detects Zoom executing a batch file
+author: Ismaeel A
+date: 2025-09-04
+tags:
+    - attack.t1204.002
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentCommandLine|contains: 'Zoom'
+        CommandLine|contains: '.bat'
+    condition: selection
+falsepositives:
+    - Unknown
+level: high

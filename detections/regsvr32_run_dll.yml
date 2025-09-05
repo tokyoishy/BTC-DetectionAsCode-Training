@@ -16,9 +16,11 @@ detection:
         Image|endswith: '\regsvr32.exe'
     run_dll:
         CommandLine|contains: '/s *.dll'
-    condition: regsvr32 and run_dll
+    avira_av_filter:
+        CommandLine|endswith: '/u /s "C:\Program Files (x86)\Avira\Antivirus\*.dll"'
+    condition: regsvr32 and run_dll and not avira_av_filter
 falsepositives:
-    - unknown
+    - Legitimate applications using regsvr32 to load DLLs
 level: medium
 data: sysmon_logs/regsvr32-run-dll-sysmon-logs.xml
 source: Sysmon

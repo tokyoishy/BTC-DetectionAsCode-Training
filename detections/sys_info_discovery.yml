@@ -22,3 +22,6 @@ detection:
 falsepositives:
     - Admin activity
 level: low
+data: sys-info-discovery-sysmon-logs.xml
+source: Sysmon
+sourcetype: XmlWinEventLog

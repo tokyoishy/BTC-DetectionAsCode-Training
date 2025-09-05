@@ -22,3 +22,6 @@ detection:
 falsepositives:
     - Highly likely if rar is a default archiver in the monitored environment.
 level: low
+data: win-rar-compress-data-sysmon-logs.xml
+source: Sysmon
+sourcetype: XmlWinEventLog

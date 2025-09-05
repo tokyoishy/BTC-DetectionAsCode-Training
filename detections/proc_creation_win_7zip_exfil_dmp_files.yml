@@ -36,3 +36,6 @@ falsepositives:
     - Legitimate use of 7z with a command line in which ".dmp" or ".dump" appears accidentally
     - Legitimate use of 7z to compress WER ".dmp" files for troubleshooting
 level: medium
+data: 7zip-exfil-dmp-sysmon-logs.xml
+source: Sysmon
+sourcetype: XmlWinEventLog

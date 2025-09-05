@@ -20,3 +20,6 @@ detection:
 falsepositives:
     - unknown
 level: medium
+data: regsvr32-run-dll-sysmon-logs.xml
+source: Sysmon
+sourcetype: XmlWinEventLog

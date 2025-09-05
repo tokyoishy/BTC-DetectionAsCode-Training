@@ -95,6 +95,8 @@ class DetectionTestingManager:
         if verify_ssl is False:
             disable_warnings()
 
+        self.configure_hec()
+
         headers = {
             "Authorization": f"Splunk {self.hec_token}",  
             "X-Splunk-Request-Channel": self.hec_channel,

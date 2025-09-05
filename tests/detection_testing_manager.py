@@ -13,13 +13,14 @@ from sigma.backends.splunk import SplunkBackend
 
 class DetectionTestingManager:
 
-    def __init__(self, host, username, password):
+    def __init__(self, host, username, password, hec_token):
         self.conn = client.connect(
             host=host,
             port=8089,
             username=username,
             password=password,
         )
+        self.hec_token = hec_token
 
     def sigma_to_splunk_conversion(self, sigma_detection: dict, index: str = None):
         sigma_collection = SigmaCollection.from_dicts([sigma_detection])

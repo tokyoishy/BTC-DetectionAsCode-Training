@@ -11,7 +11,7 @@ from detection_testing_manager import DetectionTestingManager
 
 def load_environment_variables():
     """Load required environment variables for Splunk connection."""
-    required_vars = ['SPLUNK_HOST', 'SPLUNK_USERNAME', 'SPLUNK_PASSWORD', 'SPLUNK_HEC_TOKEN']
+    required_vars = ['SPLUNK_HOST', 'SPLUNK_USERNAME', 'SPLUNK_PASSWORD']
     env_vars = {}
     
     for var in required_vars:
@@ -84,7 +84,7 @@ def test_detection(detection_manager, detection_data, file_name, file_path,
                 file_path=str(data_file_path),
                 source=source,
                 sourcetype=sourcetype,
-                host=detection_manager.conn.host,  # Use the Splunk host
+                host=detection_manager.conn.host  # Use the Splunk host
             )
             print("✅ Attack data sent successfully")
             
@@ -92,19 +92,22 @@ def test_detection(detection_manager, detection_data, file_name, file_path,
             import time
             time.sleep(3)
         
-        # Convert sigma detection to Splunk search
-        splunk_search = detection_manager.sigma_to_splunk_conversion(detection_data)
+        # Convert sigma detection to Splunk search with benign index for false positive testing
+        splunk_search = detection_manager.sigma_to_splunk_conversion(
+            detection_data, index="benign"
+        )
         print(f"Generated Splunk search: {splunk_search}")
         
         # Run the detection
         result = detection_manager.run_detection(splunk_search)
         
+        # For false positive testing: no results = success, results = false positive
         if result:
-            print(f"✅ Detection {file_name} triggered successfully")
-            detection_result = True
-        else:
-            print(f"❌ Detection {file_name} did not trigger")
+            print(f"❌ Detection {file_name} triggered false positive")
             detection_result = False
+        else:
+            print(f"✅ Detection {file_name} passed (no false positives)")
+            detection_result = True
         
         # Clean up attack data after testing (unless skip_cleanup is True)
         if data_file and not skip_cleanup:
@@ -128,30 +131,30 @@ def test_detection(detection_manager, detection_data, file_name, file_path,
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Test sigma detection rules using Splunk",
+        description="Test sigma detection rules for false positives using Splunk",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Environment Variables Required:
   SPLUNK_HOST      - Splunk server hostname/IP
   SPLUNK_USERNAME  - Splunk username
   SPLUNK_PASSWORD  - Splunk password
-  SPLUNK_HEC_TOKEN - HTTP Event Collector token
 
 Example usage:
-  python test_detections.py /path/to/detections/folder
+  python false_positive_testing.py /path/to/detections/folder
   
   # Skip automatic cleanup
-  python test_detections.py --no-cleanup /path/to/detections/folder
+  python false_positive_testing.py --no-cleanup /path/to/detections/folder
   
   # Set environment variables first:
   export SPLUNK_HOST="192.168.1.100"
   export SPLUNK_USERNAME="admin" 
   export SPLUNK_PASSWORD="password"
-  export SPLUNK_HEC_TOKEN="your-actual-hec-token"
   
-Note: Attack data is automatically sent and cleaned up for each detection.
+Note: Tests detections against index=test1 (non-malicious data).
+      Success = 0 results (no false positives)
+      Failure = >0 results (false positives detected)
+      Attack data is automatically sent and cleaned up for each detection.
       Use --no-cleanup to preserve test data in Splunk for analysis.
-      HEC token must be configured in Splunk beforehand.
         """
     )
     
@@ -178,10 +181,13 @@ Note: Attack data is automatically sent and cleaned up for each detection.
         detection_manager = DetectionTestingManager(
             host=env_vars['host'],
             username=env_vars['username'],
-            password=env_vars['password'],
+            password=env_vars['password']
         )
         
-        print("DetectionTestingManager initialized with predefined HEC configuration")
+        # Configure HEC
+        print("Configuring HTTP Event Collector...")
+        detection_manager.configure_hec()
+        print("HEC configured successfully")
         
         # Find YAML files
         print(f"\nSearching for YAML files in: {args.folder_path}")
@@ -211,14 +217,14 @@ Note: Attack data is automatically sent and cleaned up for each detection.
         
         # Summary
         print(f"\n{'='*50}")
-        print("DETECTION TESTING SUMMARY")
+        print("FALSE POSITIVE TESTING SUMMARY")
         print(f"{'='*50}")
         print(f"Total detections tested: {len(yaml_files)}")
-        print(f"Successful: {successful_tests}")
-        print(f"Failed: {failed_tests}")
+        print(f"Passed (no false positives): {successful_tests}")
+        print(f"Failed (false positives detected): {failed_tests}")
         success_rate = (successful_tests/len(yaml_files)*100 
                         if yaml_files else 0)
-        print(f"Success rate: {success_rate:.1f}%")
+        print(f"Pass rate: {success_rate:.1f}%")
         
         # Note about cleanup
         if args.no_cleanup:

@@ -1,6 +1,6 @@
 title: System Information Discovery
 id: 57d6175c-0639-4e58-ac21-a9c9d151afbf
-status: test
+status: stable
 description: Detects common Discovery commands
 references:
     - https://www.atomicredteam.io/atomic-red-team/atomics/T1033

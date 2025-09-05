@@ -1,6 +1,6 @@
 title: Regsvr32 Executing DLL
 id: b91813a1-2952-456f-83af-8aaf88e2ef2e
-status: test
+status: stable
 description: Detects regsvr32.exe running a DLL
 references:
     - https://www.atomicredteam.io/atomic-red-team/atomics/T1218.010#atomic-test-3---regsvr32-local-dll-execution

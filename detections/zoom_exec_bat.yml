@@ -1,6 +1,6 @@
 title: Zoom Executing a .bat file
 id: f290454b-279b-4ecf-9288-eb527df89fdb
-status: test
+status: stable
 description: Detects Zoom executing a batch file
 author: Ismaeel A
 date: 2025-09-04

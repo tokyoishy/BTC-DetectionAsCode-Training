@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "title": { "type": "string" },
+    "id": { "type": "string", "format": "uuid" },
+    "status": { "type": "string", "enum": ["experimental", "test", "stable", "deprecated"] },
+    "description": { "type": "string" },
+    "author": { "type": "string" },
+    "date": { "format": "date" },
+    "level": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+    "logsource": { "type": "object" },
+    "detection": { "type": "object" }
+  },
+  "required": ["title", "id", "status", "date", "logsource", "detection"]
+}

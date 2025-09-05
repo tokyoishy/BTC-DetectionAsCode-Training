@@ -4,7 +4,7 @@ import jsonschema
 import os
 
 # Load schema
-with open('sigma.schema.json') as f:
+with open('tests/sigma.schema.json') as f:
     schema = json.load(f)
 
 # Get list of filenames

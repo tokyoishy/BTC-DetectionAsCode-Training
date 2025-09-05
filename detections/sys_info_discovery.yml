@@ -13,6 +13,9 @@ logsource:
     product: windows
 detection:
     discovery:
+        Image|endswith:
+            - '\cmd.exe'
+            - '\powershell.exe'
         CommandLine|contains:
             - 'systeminfo'
             - '/c whoami'

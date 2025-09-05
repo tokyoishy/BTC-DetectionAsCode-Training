@@ -33,5 +33,5 @@ jobs:
       with:
         name: validation-results
         path: |
-          detections/validation_results/
+          detections/
         retention-days: 30 

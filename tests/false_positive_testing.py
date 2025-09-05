@@ -92,9 +92,9 @@ def test_detection(detection_manager, detection_data, file_name, file_path,
             import time
             time.sleep(3)
         
-        # Convert sigma detection to Splunk search with test1 index for false positive testing
+        # Convert sigma detection to Splunk search with benign index for false positive testing
         splunk_search = detection_manager.sigma_to_splunk_conversion(
-            detection_data, index="test1"
+            detection_data, index="benign"
         )
         print(f"Generated Splunk search: {splunk_search}")
         

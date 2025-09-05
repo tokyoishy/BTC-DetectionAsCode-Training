@@ -179,7 +179,6 @@ Note: Attack data is automatically sent and cleaned up for each detection.
             host=env_vars['host'],
             username=env_vars['username'],
             password=env_vars['password'],
-            hec_token=env_vars['hec_token']
         )
         
         print("DetectionTestingManager initialized with predefined HEC configuration")

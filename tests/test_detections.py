@@ -85,7 +85,6 @@ def test_detection(detection_manager, detection_data, file_name, file_path,
                 source=source,
                 sourcetype=sourcetype,
                 host=detection_manager.conn.host,  # Use the Splunk host
-                event_host="test"  # Host field that appears in Splunk events
             )
             print("✅ Attack data sent successfully")
             

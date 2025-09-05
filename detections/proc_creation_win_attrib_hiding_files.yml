@@ -31,6 +31,6 @@ falsepositives:
     - IgfxCUIService.exe hiding *.cui files via .bat script (attrib.exe a child of cmd.exe and igfxCUIService.exe is the parent of the cmd.exe)
     - Msiexec.exe hiding desktop.ini
 level: medium
-data: attrib-hiding-files-sysmon-logs.xml
+data: sysmon_logs/attrib-hiding-files-sysmon-logs.xml
 source: Sysmon
 sourcetype: XmlWinEventLog

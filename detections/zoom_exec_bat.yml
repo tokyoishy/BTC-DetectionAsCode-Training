@@ -17,6 +17,6 @@ detection:
 falsepositives:
     - Unknown
 level: high
-data: zoom-exec-bat-sysmon-logs.xml
+data: sysmon_logs/zoom-exec-bat-sysmon-logs.xml
 source: Sysmon
 sourcetype: XmlWinEventLog

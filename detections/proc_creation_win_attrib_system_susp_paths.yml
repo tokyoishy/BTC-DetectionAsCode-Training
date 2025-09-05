@@ -33,6 +33,6 @@ detection:
 falsepositives:
     - Unknown
 level: high
-data: attrib-sys-sus-path-sysmon-logs.xml
+data: sysmon_logs/attrib-sys-sus-path-sysmon-logs.xml
 source: Sysmon
 sourcetype: XmlWinEventLog
